@@ -1,0 +1,6 @@
+Flask
+pandas
+wordcloud
+matplotlib
+ PyPDF2
+ python-docx
