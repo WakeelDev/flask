@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Cloud Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        img { max-width: 100%; height: auto; }
+        table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Word Cloud Generator</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Upload a file (TXT, PDF, DOCX):</label><br>
+        <input type="file" name="file" required><br><br>
+
+        <label>Use standard stopwords:</label>
+        <input type="checkbox" name="use_stopwords" checked><br><br>
+
+        <label>Additional stopwords (comma separated):</label><br>
+        <input type="text" name="additional_stopwords" placeholder="example, stopword"><br><br>
+
+        <label>Width:</label>
+        <input type="number" name="width" value="1200"><br><br>
+
+        <label>Height:</label>
+        <input type="number" name="height" value="800"><br><br>
+
+        <label>Format:</label>
+        <select name="format">
+            <option value="png">PNG</option>
+            <option value="jpeg">JPEG</option>
+            <option value="svg">SVG</option>
+            <option value="pdf">PDF</option>
+        </select><br><br>
+
+        <label>Resolution (dpi):</label>
+        <input type="number" name="resolution" value="300"><br><br>
+
+        <button type="submit">Generate</button>
+    </form>
+
+    {% if wordcloud_img %}
+        <h2>Generated Word Cloud</h2>
+        <img src="{{ wordcloud_img }}" alt="Word Cloud"><br><br>
+        <a href="{{ download_link }}" download="wordcloud.png">Download Image</a>
+    {% endif %}
+
+    {% if word_count is not none %}
+        <h2>Word Count Table</h2>
+        <table>
+            <tr><th>Word</th><th>Count</th></tr>
+            {% for _, row in word_count.iterrows() %}
+                <tr><td>{{ row["Word"] }}</td><td>{{ row["Count"] }}</td></tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>
